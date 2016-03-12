@@ -14,10 +14,32 @@
     <form method="post" tal:attributes="href string:${context/absolute_url}/@@fess-search">
         
         <legend i18n:translate="">FESS Search</legend>
-        <input type="hidden" name="fess-url" value="http://dev.zopyx.com:8080/" />
+        <input type="hidden" name="fess-url" value="http://dev.zopyx.com:8080/" id="fess-url" />
         <input type="text" name="query" size="60" id="query" placeholder="Search for..." />
-        <input type="submit" value="Search FESS!" i18n:attributes="value" style="margin-top: 1em" />
+        <input type="button" id="search-fess" value="Search FESS!" i18n:attributes="value" style="margin-top: 1em" />
     </form>
+
+    <div id="fess-results">
+    </div>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#search-fess').on('click', function() {
+                $query = $('#query').val();
+                $url = $('#fess-url').val();
+                $url += 'json?q=' + $query;
+                $.ajax({
+                    url: $url,
+                    dataType: 'jsonp'
+                }).done(function (data) {
+                    console.log(data.response.result)
+                    $('#fess-results').text(data.response.result);
+                });
+            });        
+        })
+    </script>
 
   </metal:content-core>
 </metal:main>
