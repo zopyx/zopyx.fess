@@ -17,4 +17,9 @@
         for="*"
     />
 
+    <browser:resourceDirectory
+        name="zopyx.fess"
+        directory="resources"
+    />
+
 </configure>
