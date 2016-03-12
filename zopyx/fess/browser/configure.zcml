@@ -10,4 +10,11 @@
     i18n_domain="xmldirector.plonecore"
     >
 
+    <browser:page
+        name="fess"
+        permission="zope2.View"
+        template="fess_form.pt"
+        for="*"
+    />
+
 </configure>
