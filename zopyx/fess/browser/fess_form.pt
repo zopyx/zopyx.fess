@@ -11,12 +11,13 @@
   <metal:content-core define-macro="content-core">
 
 
-      <form method="post" tal:attributes="href string:${context/absolute_url}/@@fess-search">
-
-          <legend i18n:translate="">FESS Search</legend>
-          <input type="text" name="query" size="60" id="query" placeholder="Search for..." />
-          <input type="submit" value="Search FESS!" i18n:attributes="value" />
-      </form>
+    <form method="post" tal:attributes="href string:${context/absolute_url}/@@fess-search">
+        
+        <legend i18n:translate="">FESS Search</legend>
+        <input type="hidden" name="fess-url" value="http://dev.zopyx.com:8080/" />
+        <input type="text" name="query" size="60" id="query" placeholder="Search for..." />
+        <input type="submit" value="Search FESS!" i18n:attributes="value" style="margin-top: 1em" />
+    </form>
 
   </metal:content-core>
 </metal:main>
