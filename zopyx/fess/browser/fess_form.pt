@@ -50,38 +50,45 @@
     <script type="text/javascript" tal:attributes="src string:$portal_url/++resource++zopyx.fess//jqPagination/js/jquery.jqpagination.min.js"></script>
     <script type="text/javascript">
 
+        function query_fess(page_number=1) {
+
+            query = $('#query').val();
+            url = $('#fess-url').val();
+            url += 'json?num=20&q=' + query + '&pn=' + page_number;
+            console.log(url);
+
+            $.ajax({
+                url: url,
+                dataType: 'jsonp'
+            }).done(function (data) {
+                var template = $('#results-template').html();
+                var params = {
+                    items: data.response.result,
+                    num_items: data.response.record_count
+                };
+                nunjucks.configure({ autoescape: true });
+                var rendered = nunjucks.renderString(template, params);
+                $('#fess-results').html(rendered);
+
+                $('.pagination').jqPagination({
+                    current_page: data.response.page_number,
+                    max_page: data.response.page_count,
+                    paged: function(page) {
+                        query_fess(page);
+                    }
+                });
+                $('.pagination').show();
+            }); 
+        } 
+
+        function paged(page) {
+            query_fess(page);
+        }
+
         $(document).ready(function() {
             $('#search-fess').on('click', function() {
-                $query = $('#query').val();
-                $url = $('#fess-url').val();
-                $url += 'json?q=' + $query;
-                $('.pagination').hide();
-                $.ajax({
-                    url: $url,
-                    dataType: 'jsonp'
-                }).done(function (data) {
-                    console.log(data);
-                    var template = $('#results-template').html();
-                    var params = {
-                        items: data.response.result,
-                        num_items: data.response.record_count
-                    };
-                    nunjucks.configure({ autoescape: true });
-                    var rendered = nunjucks.renderString(template, params);
-                    $('#fess-results').html(rendered);
-
-                    $('.pagination').jqPagination({
-                        current_page: data.response.page_number,
-                        max_page: data.response.page_count,
-                        paged: function(page) {
-                            alert(page);
-                        }
-                    });
-                    $('.pagination').show();
-                });
+                query_fess();
             });        
-
-
         })
     </script>
 
