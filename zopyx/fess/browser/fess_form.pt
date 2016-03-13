@@ -19,7 +19,7 @@
     <div class="pagination" style="display: none">
         <a href="#" class="first" data-action="first">&laquo;</a>
         <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-        <input type="text" readonly="readonly" id="pager-text" data-max-page="40" />
+        <input type="text" readonly="readonly" class="pager-text" data-max-page="40" />
         <a href="#" class="next" data-action="next">&rsaquo;</a>
         <a href="#" class="last" data-action="last">&raquo;</a>
     </div>
@@ -30,7 +30,7 @@
     <div class="pagination" style="display: none">
         <a href="#" class="first" data-action="first">&laquo;</a>
         <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-        <input type="text" readonly="readonly" id="pager-text" data-max-page="40" />
+        <input type="text" readonly="readonly" class="pager-text" data-max-page="40" />
         <a href="#" class="next" data-action="next">&rsaquo;</a>
         <a href="#" class="last" data-action="last">&raquo;</a>
     </div>
@@ -70,14 +70,7 @@
                 nunjucks.configure({ autoescape: true });
                 var rendered = nunjucks.renderString(template, params);
                 $('#fess-results').html(rendered);
-
-                $('.pagination').jqPagination({
-                    current_page: data.response.page_number,
-                    max_page: data.response.page_count,
-                    paged: function(page) {
-                        query_fess(page);
-                    }
-                });
+                $('.pager-text').attr('data-max-page', data.response.page_count);    
                 $('.pagination').show();
             }); 
         } 
@@ -90,6 +83,12 @@
             $('#search-fess').on('click', function() {
                 query_fess();
             });        
+
+            $('.pagination').jqPagination({
+                paged: function(page) {
+                    query_fess(page);
+                }
+            });
         })
     </script>
 
