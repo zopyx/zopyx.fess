@@ -50,11 +50,12 @@
     <script type="text/javascript" tal:attributes="src string:$portal_url/++resource++zopyx.fess//jqPagination/js/jquery.jqpagination.min.js"></script>
     <script type="text/javascript">
 
+        BATCH_SIZE = 20;
         function query_fess(page_number=1) {
 
             query = $('#query').val();
             url = $('#fess-url').val();
-            url += 'json?num=20&q=' + query + '&pn=' + page_number;
+            url += 'json?q=' + query + '&start=' + (BATCH_SIZE * page_number);
             console.log(url);
 
             $.ajax({
